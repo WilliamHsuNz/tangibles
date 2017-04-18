@@ -253,6 +253,18 @@ export class TangibleController extends AbstractTangibleController{
       }
     }
 
+    deleteVisualById(idToRemove) {
+        for(let [id, visual] of Object.entries(this.visuals))
+        {
+            if (id === idToRemove) {
+              visual.remove();
+              delete this.visuals[id];
+            }
+        }
+
+        this.stage.draw();
+    }
+
     deleteAll() {
         for(let [id, visual] of Object.entries(this.visuals))
         {
@@ -442,11 +454,12 @@ export class TangibleController extends AbstractTangibleController{
                   console.log(template)
                   //set tangible object as field - accessible by level controller.
                   this.currentTangible = template;
-                  let validTangible = this.levelCtrl.$scope.tangibleEntered(this.containerID);
+                  let id = Random.id();
+                  let validTangible = this.levelCtrl.$scope.tangibleEntered(this.containerID, id);
                   console.log("Print Tangible on screen: "+validTangible);
                   if(validTangible){
                     this.tangibleCount++;
-                    let id = Random.id();
+                    //let id = Random.id();
                     let instance = {type: closestMatch.target, position: position, orientation: orientation, zIndex: 0};
                     this.diagram.tangibles[id] = instance;
                     this.addVisual(id, instance.type, instance, template, this.stage);

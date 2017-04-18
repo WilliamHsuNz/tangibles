@@ -41,12 +41,13 @@ class LevelTwoCtrl {
     $scope.classEntered = false;
     $scope.classInEdit = "";
     $scope.attributeList = [];
+    $scope.idList = [];
     $scope.alertTitle = "";
     $scope.alertMessage= "";
 
     //=================METHODS=================//
 
-    $scope.tangibleEntered = function(containerID){
+    $scope.tangibleEntered = function(containerID, id){
       let currentTangible = $scope.tangibleController.currentTangible;
       //for the first tangible entered only allow "Class" tangibles
       if($scope.tangibleController.tangibleCount === 0){
@@ -67,6 +68,7 @@ class LevelTwoCtrl {
           //if not already in the attribute list, then add it(prevent duplicates)
           if($scope.attributeList.indexOf(newAttributeType) === -1){
             $scope.attributeList.push(newAttributeType);
+            $scope.idList.push(id);
           }
           $scope.$apply();
           return true; //changed from return false
@@ -83,6 +85,9 @@ class LevelTwoCtrl {
       let index = $scope.attributeList.indexOf(attributeToRemove);
       if(index > -1){
         $scope.attributeList.splice(index,1);
+        let id  = $scope.idList[index];
+        $scope.idList.splice(index, 1);
+        $scope.tangibleController.deleteVisualById(id);
       //remove graphics in container
       //let selectedName = $scope.tangibleController.getSelectedName();
       //if (selectedName !== false) {
@@ -96,6 +101,7 @@ class LevelTwoCtrl {
       $scope.classEntered = false;
       $scope.classInEdit = "";
       $scope.attributeList = [];
+      $scope.idList = [];
       $ootService.classTemplates = [
         {id: "Circle", attributes: []},
         {id: "Square", attributes: []},
