@@ -69,9 +69,12 @@ class LevelTwoCtrl {
           if($scope.attributeList.indexOf(newAttributeType) === -1){
             $scope.attributeList.push(newAttributeType);
             $scope.idList.push(id);
+            $scope.$apply();//new change 24/4/2017
+            return true;//new change 24/4/2017
           }
-          $scope.$apply();
-          return true; //changed from return false
+          return false;
+          //$scope.$apply();
+          //return true; //changed from return false
         }else{
           $scope.alertTitle = "Incorrect tangible";
           $scope.alertMessage= "Please enter an attribute type to add to your class.\n Hint: attribute type tangibles look like a puzzle piece.";
